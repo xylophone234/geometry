@@ -1,0 +1,70 @@
+.toolbarButton {
+  border:             3px outset;
+  border-radius:      10px;
+  background-repeat:  no-repeat;
+  background-position:center;
+  background-color:   WhiteSmoke;
+}
+.ruler {
+  background-image: url('ruler.gif');
+}
+.info {
+  background-image: url('info.gif');
+}
+.compass {
+  background-image: url('compass.gif');
+}
+.zoom-in {
+  background-image: url('zoom-in.gif');
+}
+.zoom-out {
+  background-image: url('zoom-out.gif');
+}
+.pressedButton {
+  border-style: inset;
+}
+.infoDialog {
+  margin:             3px;
+  border:             3px outset;
+  border-radius:      6px;
+  background-color:   WhiteSmoke;
+  position:           absolute;
+}
+
+.infoDialog button{
+  border-radius:      8px;
+}
+
+.infoDialog .navigate{
+  border-radius:      8px;
+  width:              20px;
+  height:             20px;
+  font-weight:        bold;
+  font-size:          10px;
+}
+
+.infoDialog .labelInput{
+  border-radius:      3px;
+  width:              80px;
+  display:            block;
+  position:           relative;
+  left:               3px;
+}
+
+.infoDialog .objDesc{
+  font-weight:        bold;
+  font-size:          10px;
+  position:           relative;
+  left:               3px;
+}
+
+td, canvas, button {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+}
