@@ -3,8 +3,11 @@ goog.provide('bay.geom.ui')
 goog.require('goog.events.MouseWheelHandler');
 goog.require('goog.fx.Dragger');
 goog.require('goog.fx.Dragger.EventType');
+goog.require('goog.ui.Dialog');
 goog.require('goog.ui.Button');
 goog.require('goog.ui.BidiInput');
+goog.require('goog.ui.Textarea');
+goog.require('goog.ui.KeyboardShortcutHandler');
 goog.require('goog.style');
 
 bay.geom.ui.Handler = function(draw, toolbarElement, props){
@@ -31,6 +34,7 @@ bay.geom.ui.Handler = function(draw, toolbarElement, props){
     this.addClickListener();
     this.addDragListener();
     this.addRightClickListener();
+    this.addKeyboardListener();
   }
   if (toolbarElement){
     this.addButtons();
@@ -200,6 +204,17 @@ bay.geom.ui.Handler.prototype.addRightClickListener = function(){
   }
 }
 
+bay.geom.ui.Handler.prototype.addKeyboardListener = function(){
+  var shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
+  var CTRL = goog.ui.KeyboardShortcutHandler.Modifiers.CTRL;
+  shortcutHandler.registerShortcut('CTRL_J', goog.events.KeyCodes.J, CTRL);
+  var onKeyPress = function(e){
+    if(e.identifier == 'CTRL_J'){
+      this.showCodePanel();
+    }
+  }
+  goog.events.listen(shortcutHandler, goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED, onKeyPress, null, this);
+}
 
 // ******************************* toolbar buttons ***********************************//
 bay.geom.ui.Handler.prototype.addButtons = function(newState){
@@ -281,6 +296,21 @@ bay.geom.ui.Handler.prototype.showInfo = function(x, y, list, current){
   goog.events.listen(hideButton, goog.ui.Component.EventType.ACTION, function(){element.hide();this.draw.redrawAll(); this.infoDialog.dispose();this.infoDialog = null;}, null, this);
   // show the descriptor
   goog.style.showElement(this.infoDialog.getElement(), true);
+}
+
+// *********************************** codePanel *********************************************//
+bay.geom.ui.Handler.prototype.showCodePanel = function(){
+  var dialog = new goog.ui.Dialog();
+  dialog.setTitle('JSON code for drawing');
+  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
+  var textArea = new goog.ui.Textarea(this.draw.getMainCollection().jsonCode());
+  textArea.setMinHeight(300);
+  dialog.addChild(textArea, true);
+  goog.dom.classes.add(textArea.getElement(), 'codeArea');
+  goog.events.listen(dialog, goog.ui.Dialog.EventType.SELECT, function(e) {
+    dialog.dispose();
+  });
+  dialog.setVisible(true);
 }
 
 // *********************************** actions *********************************************//
