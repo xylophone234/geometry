@@ -10,12 +10,18 @@ goog.require('goog.ui.Textarea');
 goog.require('goog.ui.KeyboardShortcutHandler');
 goog.require('goog.style');
 
-bay.geom.ui.Handler = function(draw, toolbarElement, props){
-  this.draw = draw;
-  this.toolbarElement = toolbarElement;
-  this.element = draw.getContentElement();
+bay.geom.ui.Handler = function(drawArea, toolbarElement, props){
+  if(typeof drawArea === 'string')
+    this.draw = new bay.geom.draw.Area(drawArea);
+  else
+    this.draw = drawArea;
+  if(typeof toolbarElement === 'string')
+    this.toolbarElement = goog.dom.getElement(toolbarElement);
+  else
+    this.toolbarElement = toolbarElement;
+  this.element = this.draw.getContentElement();
   this.tempCollection = bay.geom.base.Create();
-  draw.geomCollections.push(this.tempCollection);
+  this.draw.geomCollections.push(this.tempCollection);
   this.properties = {
     hover:      true,
     onwheel:    true,

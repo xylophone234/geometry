@@ -57,37 +57,37 @@ bay.geom.base.Collection.prototype.jsonCode = function(){
 
 // ********************** add behavior to geometrical elements ************************************* //
 bay.geom.base.PointFree.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', type": "PointFree", "x": ' + this.x + ', "y":' + this.y + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', type": "PointFree", "x": ' + this.x + ', "y": ' + this.y + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.Point_2l.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', type": "Point_2l", "obj1": ' + list.indexOf(this.obj1) + ', "obj2":' + list.indexOf(this.obj2) + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', type": "Point_2l", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.Point_2c.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', type": "Point_2c", "obj1": ' + list.indexOf(this.obj1) + ', "obj2":' + list.indexOf(this.obj2) + ', "num":' + this.intersectNum + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', type": "Point_2c", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.Point_lc.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', type": "Point_lc", "obj1": ' + list.indexOf(this.obj1) + ', "obj2":' + list.indexOf(this.obj2) + ', "num":' + this.intersectNum + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', type": "Point_lc", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.LineGeneral.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', type": "LineGeneral", "a": ' + this.a + ', "b":' + this.b + ', "b":' + this.c + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', type": "LineGeneral", "a": ' + this.a + ', "b": ' + this.b + ', "c": ' + this.c + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.Line_2p.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', type": "Line_2p", "p1": ' + list.indexOf(this.startPoint) + ', "p2":' + list.indexOf(this.endPoint) + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', type": "Line_2p", "p1": ' + list.indexOf(this.startPoint) + ', "p2": ' + list.indexOf(this.endPoint) + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.Segment.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', type": "Segment", "p1": ' + list.indexOf(this.startPoint) + ', "p2":' + list.indexOf(this.endPoint) + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', type": "Segment", "p1": ' + list.indexOf(this.startPoint) + ', "p2": ' + list.indexOf(this.endPoint) + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.CircleGeneral.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', type": "CircleGeneral", "a": ' + this.a + ', "b":' + this.b + ', "b":' + this.c + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', type": "CircleGeneral", "a": ' + this.a + ', "b": ' + this.b + ', "c": ' + this.c + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.Circle_3p.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', type": "Circle_3p", "p1": ' + list.indexOf(this.centerPoint) + ', "p2":' + list.indexOf(this.startPoint) + ', "p3":' + list.indexOf(this.endPoint) + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', type": "Circle_3p", "p1": ' + list.indexOf(this.centerPoint) + ', "p2": ' + list.indexOf(this.startPoint) + ', "p3": ' + list.indexOf(this.endPoint) + (this.hidden?', "hidden": true':'') +'}';
 }

@@ -2,10 +2,14 @@ goog.provide('bay.geom.draw')
 
 goog.require('goog.graphics');
 goog.require('goog.graphics.Font');
+goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 
 bay.geom.draw.Area = function(domElement, props){
-  this.domElement = domElement;
+  if(typeof domElement === 'string')
+    this.domElement = goog.dom.getElement(domElement);
+  else
+    this.domElement = domElement;
   this.getMainCollection();
   var graphics = this.getGraphics();
   this.transformation = goog.graphics.AffineTransform.getTranslateInstance(graphics.getCoordSize().width/2, graphics.getCoordSize().height/2).scale(1, -1);

@@ -18,7 +18,5 @@
 </body>
 </html>
 <script type="text/javascript">
-  var toolbar = goog.dom.getElement('toolbar');
-  geomhandler = new bay.geom.ui.Handler(new bay.geom.draw.Area(goog.dom.getElement('drawArea')), goog.dom.getElement('toolbar'));
-
+  geomhandler = new bay.geom.ui.Handler('drawArea', 'toolbar');
 </script>

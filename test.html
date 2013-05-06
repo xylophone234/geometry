@@ -3,16 +3,20 @@
   <head>
     <title>Bay Geom Unit Tests</title>
     <script src="../closure-library/closure/goog/base.js"></script>
+    <script src="base.js"></script>
+    <script src="collection.js"></script>
+    <script src="draw.js"></script>
     <script>
       goog.require('goog.testing.jsunit');
     </script>
-    <script src="base.js"></script>
-    <script src="collection.js"></script>
-    <script src="test/base/collection.js"></script>
-    <script src="test/base/point.js"></script>
-    <script src="test/base/line.js"></script>
-    <script src="test/base/circle.js"></script>
+    <script src="test/collection.js"></script>
+    <script src="test/point.js"></script>
+    <script src="test/line.js"></script>
+    <script src="test/circle.js"></script>
+    <script src="test/draw.js"></script>
   </head>
   <body>
+    <div id="testArea" style="position:absolute">
+    </div>
   </body>
 </html>
