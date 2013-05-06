@@ -35,8 +35,13 @@ bay.geom.base.Element.prototype.distanceTo = function(p){
 }
 
 bay.geom.base.Vector = function(x, y){
-  this.x = x;
-  this.y = y;
+  if (x instanceof bay.geom.base.Vector || x instanceof bay.geom.base.Point){
+    this.x = x.x;
+    this.y = x.y;
+  }else{
+    this.x = x;
+    this.y = y;
+  }
 }
 
 // *************************************** Point ******************************************* //
@@ -55,27 +60,25 @@ bay.geom.base.Point.prototype.toString = function(){
 }
 
 bay.geom.base.Point.prototype.distance = function(x, y){
-  return Math.sqrt((x - this.x)*(x - this.x) + (y - this.y)*(y - this.y))
+  var to = new bay.geom.base.Vector(x,y);
+  return Math.sqrt((to.x - this.x)*(to.x - this.x) + (to.y - this.y)*(to.y - this.y))
 }
 
 // *************************************** FreePoint ******************************************* //
 
 bay.geom.base.PointFree = function(x, y){
   bay.geom.base.Point.call(this);
-  this.x = x;
-  this.y = y;
-  this.recalc();
+  this.moveTo(x, y);
 }
 
 goog.inherits(bay.geom.base.PointFree, bay.geom.base.Point);
 
 bay.geom.base.PointFree.prototype.moveTo = function(x, y){
-  this.x = x;
-  this.y = y;
+  bay.geom.base.Vector.call(this, x, y);
   this.recalc();
 }
 
-bay.geom.base.PointFree.prototype.recalc = function(x, y){
+bay.geom.base.PointFree.prototype.recalc = function(){
   if(this.x != null && this.y != null)
     this.exists = true;
   else
@@ -100,7 +103,7 @@ bay.geom.base.Point_2l.prototype.deleteElement = function(){
   this.obj2.deleteDependant(this);
 }
 
-bay.geom.base.Point_2l.prototype.recalc = function(x, y){
+bay.geom.base.Point_2l.prototype.recalc = function(){
   if (!this.obj1 || !this.obj2 || !this.obj1.exists || !this.obj2.exists){
     this.exists = false;
   }else{
@@ -142,7 +145,7 @@ bay.geom.base.Point_2c.prototype.deleteElement = function(){
   this.obj2.deleteDependant(this);
 }
 
-bay.geom.base.Point_2c.prototype.recalc = function(x, y){
+bay.geom.base.Point_2c.prototype.recalc = function(){
   if (!this.obj1 || !this.obj2 || !this.obj1.exists || !this.obj2.exists){
     this.exists = false;
   }else{
@@ -192,7 +195,7 @@ bay.geom.base.Point_lc.prototype.deleteElement = function(){
   this.obj2.deleteDependant(this);
 }
 
-bay.geom.base.Point_lc.prototype.recalc = function(x, y){
+bay.geom.base.Point_lc.prototype.recalc = function(){
   if (!this.obj1 || !this.obj2 || !this.obj1.exists || !this.obj2.exists){
     this.exists = false;
   }else{
@@ -233,7 +236,8 @@ bay.geom.base.Line.prototype.toString = function(){
 }
 
 bay.geom.base.Line.prototype.distance = function(x, y){
-  return Math.abs(this.direction.x * (y - this.startPoint.y) - this.direction.y * (x - this.startPoint.x)) / Math.sqrt(this.direction.x * this.direction.x + this.direction.y * this.direction.y)
+  var to = new bay.geom.base.Vector(x,y);
+  return Math.abs(this.direction.x * (to.y - this.startPoint.y) - this.direction.y * (to.x - this.startPoint.x)) / Math.sqrt(this.direction.x * this.direction.x + this.direction.y * this.direction.y)
 }
 
 // *************************************** GeneralLine **************************************** //
@@ -312,17 +316,18 @@ bay.geom.base.Segment.prototype.length = function(){
 }
 
 bay.geom.base.Segment.prototype.distance = function(x, y){
-  var a = this.startPoint.y - y;
-  var b = this.endPoint.y - y;
+  var to = new bay.geom.base.Vector(x,y);
+  var a = this.startPoint.y - to.y;
+  var b = this.endPoint.y - to.y;
   if (this.direction.x != 0){
-    a = this.startPoint.x - x + this.direction.y * (this.startPoint.y - y) / this.direction.x;
-    b = this.endPoint.x - x + this.direction.y * (this.endPoint.y - y) / this.direction.x;
+    a = this.startPoint.x - to.x + this.direction.y * (this.startPoint.y - to.y) / this.direction.x;
+    b = this.endPoint.x - to.x + this.direction.y * (this.endPoint.y - to.y) / this.direction.x;
   }
   if (a*b <= 0){
-    return Math.abs(this.direction.x * (y - this.startPoint.y) - this.direction.y * (x - this.startPoint.x)) / Math.sqrt(this.direction.x * this.direction.x + this.direction.y * this.direction.y)
+    return Math.abs(this.direction.x * (to.y - this.startPoint.y) - this.direction.y * (to.x - this.startPoint.x)) / Math.sqrt(this.direction.x * this.direction.x + this.direction.y * this.direction.y)
   }else{
-    a = this.startPoint.distance(x, y);
-    b = this.endPoint.distance(x, y);
+    a = this.startPoint.distance(to.x, to.y);
+    b = this.endPoint.distance(to.x, to.y);
     if(a < b) return a;
     else return b;
   }
@@ -343,7 +348,8 @@ bay.geom.base.Circle.prototype.toString = function(){
 }
 
 bay.geom.base.Circle.prototype.distance = function(x, y){
-  return Math.abs(this.centerPoint.distance(x, y) - this.radius);
+  var to = new bay.geom.base.Vector(x,y);
+  return Math.abs(this.centerPoint.distance(to.x, to.y) - this.radius);
 }
 
 // *************************************** GeneralCircle **************************************** //

@@ -26,15 +26,17 @@ bay.geom.base.Collection.prototype.add = function(e){
 }
 
 // list of elements near the given point
-bay.geom.base.Collection.prototype.getNeighbourList = function(x, y, d, onlyVisible){
+bay.geom.base.Collection.prototype.getNeighbourList = function(p, d, onlyVisible, sorted){
   var neighbourList = [];
   for(var i=0;i<this.list.length;i++){
     if (this.list[i].distance && (!onlyVisible || !this.list[i].hidden)) {
-      var dist = this.list[i].distance(x, y);
+      var dist = this.list[i].distance(p.x, p.y);
       if (dist <= d){
         neighbourList.push({element: this.list[i], distance: dist});
       }
     }
   }
+  if (sorted)
+    neighbourList.sort(function(a,b){return a.distance - b.distance;});
   return neighbourList;
 }
