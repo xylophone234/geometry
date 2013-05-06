@@ -1,67 +1,76 @@
 .toolbarButton {
-  border:             3px outset;
-  border-radius:      10px;
-  background-repeat:  no-repeat;
+  border: 3px outset;
+  border-radius: 10px;
+  background-repeat: no-repeat;
   background-position:center;
-  background-color:   WhiteSmoke;
+  background-color: WhiteSmoke;
 }
 .ruler {
-  background-image: url('ruler.gif');
+  background-image: url('image/ruler.gif');
+}
+.rulerDrawing {
+  cursor: url('image/ruler-pointer.gif'),auto;
 }
 .info {
-  background-image: url('info.gif');
+  background-image: url('image/info.gif');
+}
+.infoDrawing {
+  cursor: url('image/info-pointer.gif'),auto;
 }
 .compass {
-  background-image: url('compass.gif');
+  background-image: url('image/compass.gif');
+}
+.compassDrawing {
+  cursor: url('image/compass-pointer.gif'),auto;
 }
 .zoom-in {
-  background-image: url('zoom-in.gif');
+  background-image: url('image/zoom-in.gif');
 }
 .zoom-out {
-  background-image: url('zoom-out.gif');
+  background-image: url('image/zoom-out.gif');
 }
 .pressedButton {
   border-style: inset;
 }
 .infoDialog {
-  margin:             3px;
-  border:             3px outset;
-  border-radius:      6px;
-  background-color:   WhiteSmoke;
-  position:           absolute;
+  margin: 3px;
+  border: 3px outset;
+  border-radius: 6px;
+  background-color: WhiteSmoke;
+  position: absolute;
 }
 
 .infoDialog button{
-  border-radius:      8px;
+  border-radius: 8px;
 }
 
 .infoDialog .navigate{
-  border-radius:      8px;
-  width:              20px;
-  height:             20px;
-  font-weight:        bold;
-  font-size:          10px;
+  border-radius: 8px;
+  width: 20px;
+  height: 20px;
+  font-weight: bold;
+  font-size: 10px;
 }
 
 .infoDialog .labelInput{
-  border-radius:      3px;
-  width:              80px;
-  display:            block;
-  position:           relative;
-  left:               3px;
+  border-radius: 3px;
+  width: 80px;
+  display: block;
+  position: relative;
+  left: 3px;
 }
 
 .infoDialog .objDesc{
-  font-weight:        bold;
-  font-size:          10px;
-  position:           relative;
-  left:               3px;
+  font-weight: bold;
+  font-size: 10px;
+  position: relative;
+  left: 3px;
 }
 
 .codeArea{
-  border-radius:      6px;
-  width:              800px;
-  height:             400px;
+  border-radius: 6px;
+  width: 800px;
+  height: 400px;
 }
 
 td, canvas, button {

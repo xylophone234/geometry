@@ -1,4 +1,4 @@
-goog.provide('bay.geom.Collection')
+goog.provide('bay.geom.base.Collection')
 
 bay.geom.base.Create = function(){
   return new bay.geom.base.Collection();

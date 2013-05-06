@@ -323,14 +323,14 @@ bay.geom.ui.Handler.prototype.toggleRulerState = function(newState){
     this.toggleCompassState(false);
     this.toggleInfoState(false);
     goog.dom.classes.add(this.buttons.bRuler.getElement(), 'pressedButton');
-    goog.style.setStyle(this.element, 'cursor', 'url(ruler-pointer.gif),auto');
+    goog.dom.classes.add(this.element, 'rulerDrawing');
   }else{
     this.state.isRuler = 0;
     this.state.rulerStart = null;
     this.state.rulerEndTmp = null;
     this.tempCollection.clear();
     goog.dom.classes.remove(this.buttons.bRuler.getElement(), 'pressedButton');
-    goog.style.setStyle(this.element, 'cursor', 'auto');
+    goog.dom.classes.remove(this.element, 'rulerDrawing');
   }
   this.draw.redrawAll();
 }
@@ -344,7 +344,7 @@ bay.geom.ui.Handler.prototype.toggleCompassState = function(newState){
     this.toggleRulerState(false);
     this.toggleInfoState(false);
     goog.dom.classes.add(this.buttons.bCompass.getElement(), 'pressedButton');
-    goog.style.setStyle(this.element, 'cursor', 'url(compass-pointer.gif),auto');
+    goog.dom.classes.add(this.element, 'compassDrawing');
   }else{
     this.state.isCompass = 0;
     this.state.compassStart = null;
@@ -353,7 +353,7 @@ bay.geom.ui.Handler.prototype.toggleCompassState = function(newState){
     this.state.compassCenterTmp = null;
     this.tempCollection.clear();
     goog.dom.classes.remove(this.buttons.bCompass.getElement(), 'pressedButton');
-    goog.style.setStyle(this.element, 'cursor', 'auto');
+    goog.dom.classes.remove(this.element, 'compassDrawing');
   }
   this.draw.redrawAll();
 }
@@ -367,7 +367,7 @@ bay.geom.ui.Handler.prototype.toggleInfoState = function(newState){
     this.toggleRulerState(false);
     this.toggleCompassState(false);
     goog.dom.classes.add(this.buttons.bInfo.getElement(), 'pressedButton');
-    goog.style.setStyle(this.element, 'cursor', 'url(info-pointer.gif),auto');
+    goog.dom.classes.add(this.element, 'infoDrawing');
   }else{
     this.state.isInfo = 0;
     if (this.infoDialog){
@@ -375,7 +375,7 @@ bay.geom.ui.Handler.prototype.toggleInfoState = function(newState){
       this.infoDialog = null;
     }
     goog.dom.classes.remove(this.buttons.bInfo.getElement(), 'pressedButton');
-    goog.style.setStyle(this.element, 'cursor', 'auto');
+    goog.dom.classes.remove(this.element, 'infoDrawing');
   }
   this.draw.redrawAll();
 }
