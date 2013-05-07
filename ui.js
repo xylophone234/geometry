@@ -308,14 +308,16 @@ bay.geom.ui.Handler.prototype.showInfo = function(x, y, list, current){
 bay.geom.ui.Handler.prototype.showCodePanel = function(){
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('JSON code for drawing');
-  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
+  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.OK_CANCEL);
   var textArea = new goog.ui.Textarea(this.draw.getMainCollection().jsonCode());
   textArea.setMinHeight(300);
   dialog.addChild(textArea, true);
   goog.dom.classes.add(textArea.getElement(), 'codeArea');
   goog.events.listen(dialog, goog.ui.Dialog.EventType.SELECT, function(e) {
-    this.draw.getMainCollection().parseJson(textArea.getValue());
-    this.draw.redrawAll();
+    if (e.key == 'ok'){
+      this.draw.getMainCollection().parseJson(textArea.getValue());
+      this.draw.redrawAll();
+    }
     dialog.dispose();
   }, null, this);
   dialog.setVisible(true);
