@@ -314,8 +314,10 @@ bay.geom.ui.Handler.prototype.showCodePanel = function(){
   dialog.addChild(textArea, true);
   goog.dom.classes.add(textArea.getElement(), 'codeArea');
   goog.events.listen(dialog, goog.ui.Dialog.EventType.SELECT, function(e) {
+    this.draw.getMainCollection().parseJson(textArea.getValue());
+    this.draw.redrawAll();
     dialog.dispose();
-  });
+  }, null, this);
   dialog.setVisible(true);
 }
 
