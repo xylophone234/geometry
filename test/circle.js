@@ -75,3 +75,12 @@ function testCircleDelete() {
   assertEquals(0, point3.dependant.length);
 }
 
+function testCircleClosestPoint() {
+  var circle = new bay.geom.base.CircleGeneral(1,0,2);
+  var point = circle.closestPoint(3,2);
+  assertRoughlyEquals(1+Math.sqrt(2), point.x, 1e-9);
+  assertRoughlyEquals(Math.sqrt(2), point.y, 1e-9);
+  point.moveTo(0, 0);
+  assertRoughlyEquals(-1, point.x, 1e-9);
+  assertRoughlyEquals(0, point.y, 1e-9);
+}

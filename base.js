@@ -65,7 +65,6 @@ bay.geom.base.Point.prototype.distance = function(x, y){
 }
 
 // *************************************** FreePoint ******************************************* //
-
 bay.geom.base.PointFree = function(x, y){
   bay.geom.base.Point.call(this);
   this.moveTo(x, y);
@@ -83,6 +82,71 @@ bay.geom.base.PointFree.prototype.recalc = function(){
     this.exists = true;
   else
     this.exists = false;
+  this.recalcDependat();
+}
+
+// *************************************** PointAtLine ******************************************* //
+bay.geom.base.PointAtLine = function(l, t){
+  bay.geom.base.Point.call(this);
+  this.obj = l;
+  l.dependant.push(this);
+  this.param = t;
+  this.recalc();
+}
+
+goog.inherits(bay.geom.base.PointAtLine, bay.geom.base.Point);
+
+bay.geom.base.PointAtLine.prototype.moveTo = function(x, y){
+  if (this.obj){
+    var point = this.obj.closestPoint(x, y);
+    this.param = point.param;
+  }
+  this.recalc();
+}
+
+bay.geom.base.PointAtLine.prototype.recalc = function(){
+  if(!this.obj || !this.obj.exists || this.param == null){
+    this.exists = false;
+  }else{
+    this.exists = true;
+    this.x = this.obj.startPoint.x + this.obj.direction.x * this.param;
+    this.y = this.obj.startPoint.y + this.obj.direction.y * this.param;
+  }
+  this.recalcDependat();
+}
+
+// *************************************** PointAtCircle ******************************************* //
+bay.geom.base.PointAtCircle = function(c, v){
+  bay.geom.base.Point.call(this);
+  this.obj = c;
+  c.dependant.push(this);
+  this.direction = v;
+  this.recalc();
+}
+
+goog.inherits(bay.geom.base.PointAtCircle, bay.geom.base.Point);
+
+bay.geom.base.PointAtCircle.prototype.moveTo = function(x, y){
+  if (this.obj){
+    var point = this.obj.closestPoint(x, y);
+    this.direction = point.direction;
+  }
+  this.recalc();
+}
+
+bay.geom.base.PointAtCircle.prototype.recalc = function(){
+  if(!this.obj || !this.obj.exists || !this.direction){
+    this.exists = false;
+  }else{
+    d = Math.sqrt(this.direction.x*this.direction.x + this.direction.y*this.direction.y);
+    if (d != 0){
+      this.exists = true;
+      this.x = this.obj.centerPoint.x + this.obj.radius * this.direction.x / d;
+      this.y = this.obj.centerPoint.y + this.obj.radius * this.direction.y / d;
+    }else{
+      this.exists = false;
+    }
+  }
   this.recalcDependat();
 }
 
@@ -237,7 +301,13 @@ bay.geom.base.Line.prototype.toString = function(){
 
 bay.geom.base.Line.prototype.distance = function(x, y){
   var to = new bay.geom.base.Vector(x,y);
-  return Math.abs(this.direction.x * (to.y - this.startPoint.y) - this.direction.y * (to.x - this.startPoint.x)) / Math.sqrt(this.direction.x * this.direction.x + this.direction.y * this.direction.y)
+  return Math.abs(this.direction.x * (to.y - this.startPoint.y) - this.direction.y * (to.x - this.startPoint.x)) / Math.sqrt(this.direction.x * this.direction.x + this.direction.y * this.direction.y);
+}
+
+bay.geom.base.Line.prototype.closestPoint = function(x, y){
+  var to = new bay.geom.base.Vector(x,y);
+  var t = (this.direction.x*(to.x - this.startPoint.x) + this.direction.y *(to.y - this.startPoint.y))/(this.direction.x * this.direction.x + this.direction.y * this.direction.y);
+  return new bay.geom.base.PointAtLine(this, t);
 }
 
 // *************************************** GeneralLine **************************************** //
@@ -350,6 +420,12 @@ bay.geom.base.Circle.prototype.toString = function(){
 bay.geom.base.Circle.prototype.distance = function(x, y){
   var to = new bay.geom.base.Vector(x,y);
   return Math.abs(this.centerPoint.distance(to.x, to.y) - this.radius);
+}
+
+bay.geom.base.Circle.prototype.closestPoint = function(x, y){
+  var to = new bay.geom.base.Vector(x,y);
+  var v = new bay.geom.base.Vector(to.x - this.centerPoint.x, to.y - this.centerPoint.y);
+  return new bay.geom.base.PointAtCircle(this, v);
 }
 
 // *************************************** GeneralCircle **************************************** //

@@ -59,7 +59,7 @@ bay.geom.base.Collection.prototype.jsonCode = function(){
 
 bay.geom.base.Collection.prototype.parseJson = function(str){
   this.clear();
-  itemList = eval('(' + str + ')');
+  var itemList = eval('(' + str + ')');
   for(var i=0;i<itemList.length;i++){
     var func = this.getFromJsonFunc(itemList[i].type);
     if (func)
@@ -75,6 +75,26 @@ bay.geom.base.PointFree.prototype.toJson = function(list, id){
 
 bay.geom.base.PointFree.fromJson = function(item, list){
   var point = new bay.geom.base.PointFree( item.x, item.y);
+  if (item.hidden) point.hidden = true;
+  return point;
+}
+
+bay.geom.base.PointAtLine.prototype.toJson = function(list, id){
+  return '{"id": ' + id + ', "type": "PointAtLine", "obj": ' + list.indexOf(this.obj) + ', "t": ' + this.param + (this.hidden?', "hidden": true':'') +'}';
+}
+
+bay.geom.base.PointAtLine.fromJson = function(item, list){
+  var point = new bay.geom.base.PointAtLine( list[item.obj], item.t);
+  if (item.hidden) point.hidden = true;
+  return point;
+}
+
+bay.geom.base.PointAtCircle.prototype.toJson = function(list, id){
+  return '{"id": ' + id + ', "type": "PointAtCircle", "obj": ' + list.indexOf(this.obj) + ', "x": ' + this.direction.x + ', "y": ' + this.direction.y + (this.hidden?', "hidden": true':'') +'}';
+}
+
+bay.geom.base.PointAtCircle.fromJson = function(item, list){
+  var point = new bay.geom.base.PointAtCircle( list[item.obj], new bay.geom.base.Vector(item.x, item.y));
   if (item.hidden) point.hidden = true;
   return point;
 }
@@ -162,6 +182,8 @@ bay.geom.base.Circle_3p.fromJson = function(item, list){
 // ************************** determine parse function ***********************************
 bay.geom.base.Collection.prototype.getFromJsonFunc = function(objName){
   if (objName=="PointFree") return bay.geom.base.PointFree.fromJson;
+  else if (objName=="PointAtLine") return bay.geom.base.PointAtLine.fromJson;
+  else if (objName=="PointAtCircle") return bay.geom.base.PointAtCircle.fromJson;
   else if (objName=="Point_2l") return bay.geom.base.Point_2l.fromJson;
   else if (objName=="Point_2c") return bay.geom.base.Point_2c.fromJson;
   else if (objName=="Point_lc") return bay.geom.base.Point_lc.fromJson;

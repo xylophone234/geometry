@@ -150,3 +150,12 @@ function testLineDelete() {
   assertEquals(0, point3.dependant.length);
 }
 
+function testLineClosestPoint() {
+  var line = new bay.geom.base.LineGeneral(2,-2,2);
+  var point = line.closestPoint(0,0);
+  assertRoughlyEquals(0.5, point.x, 1e-9);
+  assertRoughlyEquals(-0.5, point.y, 1e-9);
+  point.moveTo(2,0)
+  assertRoughlyEquals(1.5, point.x, 1e-9);
+  assertRoughlyEquals(0.5, point.y, 1e-9);
+}

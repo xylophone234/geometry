@@ -85,7 +85,13 @@ bay.geom.ui.Handler.prototype.pointAtEventPosition = function(e){
   }
   if (!point){
     // if point not exists and no intersections - add new
-    point = new bay.geom.base.PointFree(coords);
+    if (list.length > 0 && list[0].element.closestPoint){
+      // closest point on a line
+      point = list[0].element.closestPoint(coords);
+    }else{
+      // free point
+      point = new bay.geom.base.PointFree(coords);
+    }
     this.draw.getMainCollection().add(point);
   }
   return point;
@@ -128,7 +134,7 @@ bay.geom.ui.Handler.prototype.addWheelListener = function(){
       }
       draw.redrawAll();
       e.preventDefault();
-    };
+    }
     goog.events.listen(new goog.events.MouseWheelHandler(this.element), goog.events.MouseWheelHandler.EventType.MOUSEWHEEL, wheelHandler, null, this);
   }
 }
@@ -190,17 +196,22 @@ bay.geom.ui.Handler.prototype.addDragListener = function(){
       if (this.dragger.point)
         this.dragger.point.moveTo(this.getConvertEventPos(e));
     }
-    goog.events.listen(this.element, goog.events.EventType.MOUSEDOWN, function(e) {
-      var minDist = this.draw.getHoverDist();
-      var list = this.  draw.getMainCollection().getNeighbourList(this.getConvertEventPos(e), minDist, true, true);
-      var point = this.findPoint(list);
-      this.dragger = new goog.fx.Dragger(this.element);
-      if(point)
-        this.dragger.point = point;
-      goog.events.listen(this.dragger, goog.fx.Dragger.EventType.DRAG, dragHandler, null, this );
-      goog.events.listen(this.dragger, goog.fx.Dragger.EventType.END, function(e) {if (this.dragger) {this.dragger.dispose(); this.dragger = null;}}, null, this );
-      this.dragger.startDrag(e);
-    }, null, this);
+    goog.events.listen(
+      this.element,
+      goog.events.EventType.MOUSEDOWN,
+      function(e) {
+        var minDist = this.draw.getHoverDist();
+        var list = this.  draw.getMainCollection().getNeighbourList(this.getConvertEventPos(e), minDist, true, true);
+        var point = this.findPoint(list);
+        this.dragger = new goog.fx.Dragger(this.element);
+        if(point)
+          this.dragger.point = point;
+        goog.events.listen(this.dragger, goog.fx.Dragger.EventType.DRAG, dragHandler, null, this );
+        goog.events.listen(this.dragger, goog.fx.Dragger.EventType.END, function(e) {if (this.dragger) {this.dragger.dispose(); this.dragger = null;}}, null, this );
+        this.dragger.startDrag(e);
+      },
+      null,
+      this);
   }
 }
 
@@ -212,8 +223,7 @@ bay.geom.ui.Handler.prototype.addRightClickListener = function(){
 
 bay.geom.ui.Handler.prototype.addKeyboardListener = function(){
   var shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
-  var CTRL = goog.ui.KeyboardShortcutHandler.Modifiers.CTRL;
-  shortcutHandler.registerShortcut('CTRL_J', goog.events.KeyCodes.J, CTRL);
+  shortcutHandler.registerShortcut('CTRL_J', goog.events.KeyCodes.J, goog.ui.KeyboardShortcutHandler.Modifiers.CTRL);
   var onKeyPress = function(e){
     if(e.identifier == 'CTRL_J'){
       this.showCodePanel();
@@ -226,10 +236,10 @@ bay.geom.ui.Handler.prototype.addKeyboardListener = function(){
 bay.geom.ui.Handler.prototype.addButtons = function(newState){
   var handler = this;
   var createButton = function(className, action){
-    size = goog.style.getSize(handler.toolbarElement);
+    var size = goog.style.getSize(handler.toolbarElement);
     var button = new goog.ui.Button();
     button.render(handler.toolbarElement);
-    goog.style.setSize(button.getElement(), size.width-2, size.width-2);
+    goog.style.setSize(button.getElement(), size.width - 2, size.width - 2);
     goog.dom.classes.add(button.getElement(), 'toolbarButton ' + className);
     goog.events.listen(button, goog.ui.Component.EventType.ACTION, action);
     return button;
