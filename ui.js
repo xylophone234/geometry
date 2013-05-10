@@ -10,6 +10,8 @@ goog.require('goog.ui.Textarea');
 goog.require('goog.ui.KeyboardShortcutHandler');
 goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.PopupMenu');
+goog.require('goog.ui.ColorMenuButton');
+goog.require('goog.ui.CustomColorPalette');
 goog.require('goog.style');
 
 bay.geom.ui.Handler = function(drawArea, toolbarElement, props){
@@ -195,7 +197,7 @@ bay.geom.ui.Handler.prototype.addClickListener = function(){
 bay.geom.ui.Handler.prototype.addDragListener = function(){
   if(this.properties.ondrag){
     var dragHandler = function(e){
-      if (this.dragger.point)
+      if (this.dragger.point && this.dragger.point.moveTo)
         this.dragger.point.moveTo(this.getConvertEventPos(e));
     }
     goog.events.listen(
@@ -298,9 +300,11 @@ bay.geom.ui.Handler.prototype.showInfo = function(x, y, list, current){
   if (list.length > 1){
     var leftButton = new goog.ui.Button('<');
     this.infoDialog.addChild(leftButton, true);
+    leftButton.setTooltip('Click to select other element');
     goog.events.listen(leftButton, goog.ui.Component.EventType.ACTION, function(){this.showInfo(x, y, list, current-1);}, null, this);
     goog.dom.classes.add(leftButton.getElement(), 'navigate left');
     var rightButton = new goog.ui.Button('>');
+    rightButton.setTooltip('Click to select other element');
     this.infoDialog.addChild(rightButton, true);
     goog.events.listen(rightButton, goog.ui.Component.EventType.ACTION, function(){this.showInfo(x, y, list, current+1);}, null, this);
     goog.dom.classes.add(rightButton.getElement(), 'navigate right');
@@ -323,9 +327,20 @@ bay.geom.ui.Handler.prototype.showInfo = function(x, y, list, current){
   }
   // button to hide element
   var hideButton = new goog.ui.Button('Hide');
+  hideButton.setTooltip('Click to hide element');
   this.infoDialog.addChild(hideButton, true);
   goog.dom.classes.add(hideButton.getElement(), 'hideButton');
-  goog.events.listen(hideButton, goog.ui.Component.EventType.ACTION, function(){element.hide();this.draw.redrawAll(); this.infoDialog.dispose();this.infoDialog = null;}, null, this);
+  goog.events.listen(hideButton, goog.ui.Component.EventType.ACTION, function(e){element.hide();this.draw.redrawAll(); this.infoDialog.dispose();this.infoDialog = null;}, null, this);
+  // button to colorize element
+  var colorButton = new goog.ui.ColorMenuButton('Color');
+  colorButton.setTooltip('Click to select color');
+  if (element.color)
+    colorButton.setSelectedColor(element.color);
+  else
+    colorButton.setSelectedColor('#000000');
+  this.infoDialog.addChild(colorButton, true);
+  goog.dom.classes.add(colorButton.getElement(), 'colorButton');
+  goog.events.listen(colorButton, goog.ui.Component.EventType.ACTION, function(e){element.color=colorButton.getSelectedColor();this.draw.redrawAll();}, null, this);
   // show the descriptor
   goog.style.showElement(this.infoDialog.getElement(), true);
 }
@@ -429,6 +444,9 @@ bay.geom.ui.Handler.prototype.zoomOut = function(){
 }
 
 bay.geom.ui.Handler.prototype.showDemo = function(demoLabel){
+  this.toggleCompassState(false);
+  this.toggleRulerState(false);
+  this.toggleInfoState(false);
   for(var i=0; i < this.properties.demoList.length; i++){
     if (this.properties.demoList[i].label == demoLabel){
       this.draw.getMainCollection().rebuild(this.properties.demoList[i].data);

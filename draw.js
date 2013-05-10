@@ -22,7 +22,7 @@ bay.geom.draw.Area = function(domElement, props){
 bay.geom.draw.Area.prototype.initProperties = function(){
   this.properties = {
     pointsize:  2,
-    stroke:     new goog.graphics.Stroke(0.5, 'black'),
+    stroke:     new goog.graphics.Stroke(1, 'black'),
     fill:       new goog.graphics.SolidFill('black'),
     font:       new goog.graphics.Font(14, 'Times'),
     hover:      new goog.graphics.Stroke(2, 'blue'),
@@ -153,18 +153,24 @@ bay.geom.base.Point.prototype.draw = function(area){
   // draw point if it exists and inside the area
   if(!this.exists) return;
   if(this.x >= area.minX && this.x <= area.maxX && this.y >= area.minY && this.y <= area.maxY){
-     var coords = area.transform([this.x, this.y]);
-     if (this.current){
-       area.graphics.drawCircle(coords[0], coords[1], area.properties.pointsize, area.properties.current, area.properties.fill);
-     }else{
-       if (this.hover){
-         area.graphics.drawCircle(coords[0], coords[1], area.properties.pointsize, area.properties.hover, area.properties.fill);
-       }
-       area.graphics.drawCircle(coords[0], coords[1], area.properties.pointsize, area.properties.stroke, area.properties.fill);
-     }
-     if (this.label){
-       area.graphics.drawText(this.label, coords[0], coords[1], null, null, 'left', null, area.properties.font, area.properties.stroke, area.properties.fill);
-     }
+    var coords = area.transform([this.x, this.y]);
+    if (this.current){
+      area.graphics.drawCircle(coords[0], coords[1], area.properties.pointsize, area.properties.current, area.properties.fill);
+    }else{
+      if (this.hover){
+        area.graphics.drawCircle(coords[0], coords[1], area.properties.pointsize, area.properties.hover, area.properties.fill);
+      }
+      if (this.color){
+        var stroke = new goog.graphics.Stroke(1, this.color);
+        var fill = new goog.graphics.SolidFill(this.color);
+        area.graphics.drawCircle(coords[0], coords[1], area.properties.pointsize, stroke, fill);
+      }else{
+        area.graphics.drawCircle(coords[0], coords[1], area.properties.pointsize, area.properties.stroke, area.properties.fill);
+      }
+    }
+    if (this.label){
+      area.graphics.drawText(this.label, coords[0], coords[1], null, null, 'left', null, area.properties.font, area.properties.stroke, area.properties.fill);
+    }
   }
 }
 
@@ -182,7 +188,12 @@ bay.geom.base.Circle.prototype.draw = function(area){
        if (this.hover){
          area.graphics.drawCircle(coords[0], coords[1], this.radius * area.transformation.getScaleX(), area.properties.hover, null);
        }
-       area.graphics.drawCircle(coords[0], coords[1], this.radius * area.transformation.getScaleX(), area.properties.stroke, null);
+      if (this.color){
+        var stroke = new goog.graphics.Stroke(1, this.color);
+        area.graphics.drawCircle(coords[0], coords[1], this.radius * area.transformation.getScaleX(), stroke, null);
+      }else{
+        area.graphics.drawCircle(coords[0], coords[1], this.radius * area.transformation.getScaleX(), area.properties.stroke, null);
+      }
      }
   }
 }
@@ -231,7 +242,12 @@ bay.geom.base.Line.prototype.draw = function(area){
       if (this.hover){
         area.graphics.drawPath(path, area.properties.hover, null);
       }
-      area.graphics.drawPath(path, area.properties.stroke, null);
+      if (this.color){
+        var stroke = new goog.graphics.Stroke(1, this.color);
+        area.graphics.drawPath(path, stroke, null);
+      }else{
+        area.graphics.drawPath(path, area.properties.stroke, null);
+      }
     }
   }
 }
@@ -255,7 +271,12 @@ bay.geom.base.Segment.prototype.draw = function(area){
       if (this.hover){
         area.graphics.drawPath(path, area.properties.hover, null);
       }
-      area.graphics.drawPath(path, area.properties.stroke, null);
+      if (this.color){
+        var stroke = new goog.graphics.Stroke(1, this.color);
+        area.graphics.drawPath(path, stroke, null);
+      }else{
+        area.graphics.drawPath(path, area.properties.stroke, null);
+      }
     }
   }
 }

@@ -74,126 +74,126 @@ bay.geom.base.Collection.prototype.rebuild = function(data){
 }
 
 // ********************** add behavior to geometrical elements ************************************* //
+bay.geom.base.Element.prototype.jsonHeader = function(id){
+  return '"id": ' + id +
+         (this.label?', "label": "' + this.label + '"':'') +
+         (this.color?', "color": "' + this.color + '"':'') +
+         (this.hidden?', "hidden": true':'');
+}
+
+bay.geom.base.Element.prototype.restoreFromJson = function(item){
+  if (item.label) this.label = item.label;
+  if (item.hidden) this.hidden = true;
+  if (item.color) this.color = item.color;
+}
+
 bay.geom.base.PointFree.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "PointFree", "x": ' + this.x + ', "y": ' + this.y +
-         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "PointFree", "x": ' + this.x + ', "y": ' + this.y + '}';
 }
 
 bay.geom.base.PointFree.fromJson = function(item, list){
   var point = new bay.geom.base.PointFree( item.x, item.y);
-  if (item.label) point.label = item.label;
-  if (item.hidden) point.hidden = true;
+  point.restoreFromJson(item);
   return point;
 }
 
 bay.geom.base.PointAtLine.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "PointAtLine", "obj": ' + list.indexOf(this.obj) + ', "t": ' + this.param +
-         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "PointAtLine", "obj": ' + list.indexOf(this.obj) + ', "t": ' + this.param + '}';
 }
 
 bay.geom.base.PointAtLine.fromJson = function(item, list){
   var point = new bay.geom.base.PointAtLine( list[item.obj], item.t);
-  if (item.label) point.label = item.label;
-  if (item.hidden) point.hidden = true;
+  point.restoreFromJson(item);
   return point;
 }
 
 bay.geom.base.PointAtCircle.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "PointAtCircle", "obj": ' + list.indexOf(this.obj) + ', "x": ' + this.direction.x + ', "y": ' + this.direction.y +
-         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "PointAtCircle", "obj": ' + list.indexOf(this.obj) + ', "x": ' + this.direction.x + ', "y": ' + this.direction.y + '}';
 }
 
 bay.geom.base.PointAtCircle.fromJson = function(item, list){
   var point = new bay.geom.base.PointAtCircle( list[item.obj], new bay.geom.base.Vector(item.x, item.y));
-  if (item.label) point.label = item.label;
-  if (item.hidden) point.hidden = true;
+  point.restoreFromJson(item);
   return point;
 }
 
 bay.geom.base.Point_2l.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "Point_2l", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) +
-         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "Point_2l", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + '}';
 }
 
 bay.geom.base.Point_2l.fromJson = function(item, list){
   var point = new bay.geom.base.Point_2l( list[item.obj1], list[item.obj2]);
-  if (item.label) point.label = item.label;
-  if (item.hidden) point.hidden = true;
+  point.restoreFromJson(item);
   return point;
 }
 
 bay.geom.base.Point_2c.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "Point_2c", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum +
-         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "Point_2c", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum +'}';
 }
 
 bay.geom.base.Point_2c.fromJson = function(item, list){
   var point = new bay.geom.base.Point_2c( list[item.obj1], list[item.obj2], item.num);
-  if (item.label) point.label = item.label;
-  if (item.hidden) point.hidden = true;
+  point.restoreFromJson(item);
   return point;
 }
 
 bay.geom.base.Point_lc.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "Point_lc", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum +
-         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "Point_lc", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum + '}';
 }
 
 bay.geom.base.Point_lc.fromJson = function(item, list){
   var point = new bay.geom.base.Point_lc( list[item.obj1], list[item.obj2], item.num);
-  if (item.label) point.label = item.label;
-  if (item.hidden) point.hidden = true;
+  point.restoreFromJson(item);
   return point;
 }
 
 bay.geom.base.LineGeneral.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "LineGeneral", "a": ' + this.a + ', "b": ' + this.b + ', "c": ' + this.c +
-         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "LineGeneral", "a": ' + this.a + ', "b": ' + this.b + ', "c": ' + this.c + '}';
 }
 
 bay.geom.base.LineGeneral.fromJson = function(item, list){
   var line = new bay.geom.base.LineGeneral( item.a, item.b, item.c);
-  if (item.hidden) line.hidden = true;
+  line.restoreFromJson(item);
   return line;
 }
 
 bay.geom.base.Line_2p.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "Line_2p", "p1": ' + list.indexOf(this.startPoint) + ', "p2": ' + list.indexOf(this.endPoint) + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "Line_2p", "p1": ' + list.indexOf(this.startPoint) + ', "p2": ' + list.indexOf(this.endPoint) + '}';
 }
 
 bay.geom.base.Line_2p.fromJson = function(item, list){
   var line = new bay.geom.base.Line_2p( list[item.p1], list[item.p2]);
-  if (item.hidden) line.hidden = true;
+  line.restoreFromJson(item);
   return line;
 }
 
 bay.geom.base.Segment.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "Segment", "p1": ' + list.indexOf(this.startPoint) + ', "p2": ' + list.indexOf(this.endPoint) + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "Segment", "p1": ' + list.indexOf(this.startPoint) + ', "p2": ' + list.indexOf(this.endPoint) + '}';
 }
 
 bay.geom.base.Segment.fromJson = function(item, list){
   var line = new bay.geom.base.Segment( list[item.p1], list[item.p2]);
-  if (item.hidden) line.hidden = true;
+  line.restoreFromJson(item);
   return line;
 }
 
 bay.geom.base.CircleGeneral.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "CircleGeneral", "a": ' + this.a + ', "b": ' + this.b + ', "c": ' + this.c + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "CircleGeneral", "a": ' + this.a + ', "b": ' + this.b + ', "c": ' + this.c + '}';
 }
 
 bay.geom.base.CircleGeneral.fromJson = function(item, list){
   var circle = new bay.geom.base.CircleGeneral( item.a, item.b, item.c);
-  if (item.hidden) circle.hidden = true;
+  circle.restoreFromJson(item);
   return circle;
 }
 
 bay.geom.base.Circle_3p.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "Circle_3p", "p1": ' + list.indexOf(this.centerPoint) + ', "p2": ' + list.indexOf(this.startPoint) + ', "p3": ' + list.indexOf(this.endPoint) + (this.hidden?', "hidden": true':'') +'}';
+  return '{' + this.jsonHeader(id) + ', "type": "Circle_3p", "p1": ' + list.indexOf(this.centerPoint) + ', "p2": ' + list.indexOf(this.startPoint) + ', "p3": ' + list.indexOf(this.endPoint) + '}';
 }
 
 bay.geom.base.Circle_3p.fromJson = function(item, list){
   var circle = new bay.geom.base.Circle_3p( list[item.p1], list[item.p2], list[item.p3]);
-  if (item.hidden) circle.hidden = true;
+  circle.restoreFromJson(item);
   return circle;
 }
 

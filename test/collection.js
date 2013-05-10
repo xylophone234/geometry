@@ -57,7 +57,7 @@ function initCollection(){
 
 function testPointFreeJson() {
   var collection = initCollection();
-  assertEquals('{"id": 0, "type": "PointFree", "x": 0, "y": 0, "label": "A"}', p1.toJson(collection.getElements(), 0));
+  assertEquals('{"id": 0, "label": "A", "type": "PointFree", "x": 0, "y": 0}', p1.toJson(collection.getElements(), 0));
   assertEquals('{"id": 0, "type": "PointFree", "x": 4, "y": 6}', p2.toJson(collection.getElements(), 0));
   assertEquals('{"id": 0, "type": "PointFree", "x": 5, "y": 5}', p3.toJson(collection.getElements(), 0));
 }
