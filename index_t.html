@@ -8,6 +8,7 @@
   <script src="collection.js"></script>
   <script src="ui.js"></script>
   <script src="draw.js"></script>
+  <script src="demo.js"></script>
   <link rel="stylesheet" href="ui.css">
 </head>
 <body style="height:94%;">
@@ -22,5 +23,5 @@
 </body>
 </html>
 <script type="text/javascript">
-  geomhandler = new bay.geom.ui.Handler('drawArea', 'toolbar');
+  geomhandler = new bay.geom.ui.Handler('drawArea', 'toolbar', {demoList: demoList});
 </script>

@@ -8,6 +8,8 @@ goog.require('goog.ui.Button');
 goog.require('goog.ui.BidiInput');
 goog.require('goog.ui.Textarea');
 goog.require('goog.ui.KeyboardShortcutHandler');
+goog.require('goog.ui.MenuItem');
+goog.require('goog.ui.PopupMenu');
 goog.require('goog.style');
 
 bay.geom.ui.Handler = function(drawArea, toolbarElement, props){
@@ -233,7 +235,7 @@ bay.geom.ui.Handler.prototype.addKeyboardListener = function(){
 }
 
 // ******************************* toolbar buttons ***********************************//
-bay.geom.ui.Handler.prototype.addButtons = function(newState){
+bay.geom.ui.Handler.prototype.addButtons = function(){
   var handler = this;
   var createButton = function(className, action){
     var size = goog.style.getSize(handler.toolbarElement);
@@ -241,7 +243,8 @@ bay.geom.ui.Handler.prototype.addButtons = function(newState){
     button.render(handler.toolbarElement);
     goog.style.setSize(button.getElement(), size.width - 2, size.width - 2);
     goog.dom.classes.add(button.getElement(), 'toolbarButton ' + className);
-    goog.events.listen(button, goog.ui.Component.EventType.ACTION, action);
+    if (action)
+      goog.events.listen(button, goog.ui.Component.EventType.ACTION, action);
     return button;
   }
   this.buttons = {};
@@ -250,6 +253,19 @@ bay.geom.ui.Handler.prototype.addButtons = function(newState){
   this.buttons.bZoomIn = createButton('zoom-in', function(e) { handler.zoomIn();});
   this.buttons.bZoomOut = createButton('zoom-out', function(e) { handler.zoomOut();});
   this.buttons.bInfo = createButton('info', function(e) { handler.toggleInfoState();});
+  if (this.properties.demoList){
+    this.buttons.bDemos = createButton('demo');
+    var pm = new goog.ui.PopupMenu();
+    for(var i=0; i < this.properties.demoList.length; i++){
+      pm.addItem(new goog.ui.MenuItem(this.properties.demoList[i].label));
+    }
+    goog.events.listen(pm, goog.ui.Component.EventType.ACTION, function(e){this.showDemo(e.target.getCaption());}, null, this);
+    pm.render(document.body);
+    pm.attach(
+        this.buttons.bDemos.getElement(),
+        goog.positioning.Corner.BOTTOM_RIGHT,
+        goog.positioning.Corner.BOTTOM_LEFT);
+  }
 }
 
 // *********************************** info Dialog *********************************************//
@@ -410,4 +426,13 @@ bay.geom.ui.Handler.prototype.zoomOut = function(){
   this.draw.scale(new bay.geom.base.Vector(this.draw.graphics.getCoordSize().width/2, this.draw.graphics.getCoordSize().height/2), 0.5);
   this.toggleInfoState(false);
   this.draw.redrawAll();
+}
+
+bay.geom.ui.Handler.prototype.showDemo = function(demoLabel){
+  for(var i=0; i < this.properties.demoList.length; i++){
+    if (this.properties.demoList[i].label == demoLabel){
+      this.draw.getMainCollection().rebuild(this.properties.demoList[i].data);
+      this.draw.redrawAll();
+    }
+  }
 }

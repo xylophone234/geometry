@@ -4,6 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Geometry drawing</title>
   <script src="geom-compiled.js"></script>
+  <script src="demo.js"></script>
   <link rel="stylesheet" href="ui.css">
 </head>
 <body style="height:94%;">
@@ -18,5 +19,5 @@
 </body>
 </html>
 <script type="text/javascript">
-  geomhandler = new bay.geom.ui.Handler('drawArea', 'toolbar');
+  geomhandler = new bay.geom.ui.Handler('drawArea', 'toolbar', {demoList: demoList});
 </script>
