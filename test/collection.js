@@ -51,12 +51,13 @@ function initCollection(){
   collection.add(c1 = new bay.geom.base.Circle_3p(p1,p2,p3));
   collection.add(c2 = new bay.geom.base.CircleGeneral(5,6,7));
   collection.add(s = new bay.geom.base.Segment(p2,p3));
+  p1.label = 'A';
   return collection;
 }
 
 function testPointFreeJson() {
   var collection = initCollection();
-  assertEquals('{"id": 0, "type": "PointFree", "x": 0, "y": 0}', p1.toJson(collection.getElements(), 0));
+  assertEquals('{"id": 0, "type": "PointFree", "x": 0, "y": 0, "label": "A"}', p1.toJson(collection.getElements(), 0));
   assertEquals('{"id": 0, "type": "PointFree", "x": 4, "y": 6}', p2.toJson(collection.getElements(), 0));
   assertEquals('{"id": 0, "type": "PointFree", "x": 5, "y": 5}', p3.toJson(collection.getElements(), 0));
 }

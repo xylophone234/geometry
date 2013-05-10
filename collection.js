@@ -58,79 +58,97 @@ bay.geom.base.Collection.prototype.jsonCode = function(){
 }
 
 bay.geom.base.Collection.prototype.parseJson = function(str){
+  var data = eval('(' + str + ')');
+  this.rebuild(data);
+  return this;
+}
+
+bay.geom.base.Collection.prototype.rebuild = function(data){
   this.clear();
-  var itemList = eval('(' + str + ')');
-  for(var i=0;i<itemList.length;i++){
-    var func = this.getFromJsonFunc(itemList[i].type);
+  for(var i=0;i<data.length;i++){
+    var func = this.getFromJsonFunc(data[i].type);
     if (func)
-      this.list[i] = func(itemList[i], this.list);
+      this.list[i] = func(data[i], this.list);
   }
   return this;
 }
 
 // ********************** add behavior to geometrical elements ************************************* //
 bay.geom.base.PointFree.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "PointFree", "x": ' + this.x + ', "y": ' + this.y + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', "type": "PointFree", "x": ' + this.x + ', "y": ' + this.y +
+         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.PointFree.fromJson = function(item, list){
   var point = new bay.geom.base.PointFree( item.x, item.y);
+  if (item.label) point.label = item.label;
   if (item.hidden) point.hidden = true;
   return point;
 }
 
 bay.geom.base.PointAtLine.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "PointAtLine", "obj": ' + list.indexOf(this.obj) + ', "t": ' + this.param + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', "type": "PointAtLine", "obj": ' + list.indexOf(this.obj) + ', "t": ' + this.param +
+         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.PointAtLine.fromJson = function(item, list){
   var point = new bay.geom.base.PointAtLine( list[item.obj], item.t);
+  if (item.label) point.label = item.label;
   if (item.hidden) point.hidden = true;
   return point;
 }
 
 bay.geom.base.PointAtCircle.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "PointAtCircle", "obj": ' + list.indexOf(this.obj) + ', "x": ' + this.direction.x + ', "y": ' + this.direction.y + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', "type": "PointAtCircle", "obj": ' + list.indexOf(this.obj) + ', "x": ' + this.direction.x + ', "y": ' + this.direction.y +
+         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.PointAtCircle.fromJson = function(item, list){
   var point = new bay.geom.base.PointAtCircle( list[item.obj], new bay.geom.base.Vector(item.x, item.y));
+  if (item.label) point.label = item.label;
   if (item.hidden) point.hidden = true;
   return point;
 }
 
 bay.geom.base.Point_2l.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "Point_2l", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', "type": "Point_2l", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) +
+         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.Point_2l.fromJson = function(item, list){
   var point = new bay.geom.base.Point_2l( list[item.obj1], list[item.obj2]);
+  if (item.label) point.label = item.label;
   if (item.hidden) point.hidden = true;
   return point;
 }
 
 bay.geom.base.Point_2c.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "Point_2c", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', "type": "Point_2c", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum +
+         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.Point_2c.fromJson = function(item, list){
   var point = new bay.geom.base.Point_2c( list[item.obj1], list[item.obj2], item.num);
+  if (item.label) point.label = item.label;
   if (item.hidden) point.hidden = true;
   return point;
 }
 
 bay.geom.base.Point_lc.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "Point_lc", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', "type": "Point_lc", "obj1": ' + list.indexOf(this.obj1) + ', "obj2": ' + list.indexOf(this.obj2) + ', "num": ' + this.intersectNum +
+         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.Point_lc.fromJson = function(item, list){
   var point = new bay.geom.base.Point_lc( list[item.obj1], list[item.obj2], item.num);
+  if (item.label) point.label = item.label;
   if (item.hidden) point.hidden = true;
   return point;
 }
 
 bay.geom.base.LineGeneral.prototype.toJson = function(list, id){
-  return '{"id": ' + id + ', "type": "LineGeneral", "a": ' + this.a + ', "b": ' + this.b + ', "c": ' + this.c + (this.hidden?', "hidden": true':'') +'}';
+  return '{"id": ' + id + ', "type": "LineGeneral", "a": ' + this.a + ', "b": ' + this.b + ', "c": ' + this.c +
+         (this.label?', "label": "' + this.label + '"':'') + (this.hidden?', "hidden": true':'') +'}';
 }
 
 bay.geom.base.LineGeneral.fromJson = function(item, list){
