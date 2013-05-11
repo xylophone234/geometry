@@ -12,6 +12,7 @@ goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.PopupMenu');
 goog.require('goog.ui.ColorMenuButton');
 goog.require('goog.ui.CustomColorPalette');
+goog.require('goog.ui.Checkbox');
 goog.require('goog.style');
 
 bay.geom.ui.Handler = function(drawArea, toolbarElement, props){
@@ -26,6 +27,8 @@ bay.geom.ui.Handler = function(drawArea, toolbarElement, props){
   this.element = this.draw.getContentElement();
   this.tempCollection = bay.geom.base.Create();
   this.draw.geomCollections.push(this.tempCollection);
+  this.traceCollection = bay.geom.base.Create();
+  this.draw.geomCollections.push(this.traceCollection);
   this.properties = {
     hover:      true,
     onwheel:    true,
@@ -199,6 +202,7 @@ bay.geom.ui.Handler.prototype.addDragListener = function(){
     var dragHandler = function(e){
       if (this.dragger.point && this.dragger.point.moveTo)
         this.dragger.point.moveTo(this.getConvertEventPos(e));
+        this.Tracer();
     }
     goog.events.listen(
       this.element,
@@ -331,6 +335,14 @@ bay.geom.ui.Handler.prototype.showInfo = function(x, y, list, current){
   this.infoDialog.addChild(hideButton, true);
   goog.dom.classes.add(hideButton.getElement(), 'hideButton');
   goog.events.listen(hideButton, goog.ui.Component.EventType.ACTION, function(e){element.hide();this.draw.redrawAll(); this.infoDialog.dispose();this.infoDialog = null;}, null, this);
+  // check box to turn on trace
+  var traceCb = new goog.ui.Checkbox(element.trace);
+  this.infoDialog.addChild(traceCb, true);
+  var traceCbLabel = new goog.ui.Control('Trace');
+  this.infoDialog.addChild(traceCbLabel, true);
+  goog.dom.classes.add(traceCbLabel.getElement(), 'traceCheck');
+  goog.dom.classes.add(traceCb.getElement(), 'traceCheck');
+  goog.events.listen(traceCb, goog.ui.Component.EventType.ACTION, function(e){element.trace = true;this.draw.redrawAll();}, null, this);
   // button to colorize element
   var colorButton = new goog.ui.ColorMenuButton('Color');
   colorButton.setTooltip('Click to select color');
@@ -449,8 +461,36 @@ bay.geom.ui.Handler.prototype.showDemo = function(demoLabel){
   this.toggleInfoState(false);
   for(var i=0; i < this.properties.demoList.length; i++){
     if (this.properties.demoList[i].label == demoLabel){
+      this.traceCollection.clear();
       this.draw.getMainCollection().rebuild(this.properties.demoList[i].data);
       this.draw.redrawAll();
+    }
+  }
+}
+
+// ************************************** tracing elements ****************************************** //
+bay.geom.ui.Handler.prototype.Tracer = function(){
+  var list = this.draw.getGeomElements();
+  for(var i = 0; i < list.length; i++){
+    if(list[i].trace && list[i].exists){
+      if(list[i] instanceof bay.geom.base.Point){
+        var tracer = new bay.geom.base.PointFree(list[i]);
+      }
+      else if(list[i] instanceof bay.geom.base.Segment){
+        var tracer = new bay.geom.base.Segment(new bay.geom.base.PointFree(list[i].startPoint), new bay.geom.base.PointFree(list[i].endPoint));
+      }
+      else if(list[i] instanceof bay.geom.base.Line){
+        var tracer = new bay.geom.base.Line();
+        tracer.startPoint = new bay.geom.base.PointFree(list[i].startPoint);
+        tracer.direction = new bay.geom.base.Vector(list[i].direction);
+      }
+      else if(list[i] instanceof bay.geom.base.Circle){
+        var tracer = new bay.geom.base.Circle();
+        tracer.centerPoint = new bay.geom.base.PointFree(list[i].centerPoint);
+        tracer.radius = list[i].radius;
+      }
+      tracer.exists = true;
+      this.traceCollection.add(tracer);
     }
   }
 }

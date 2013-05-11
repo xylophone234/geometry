@@ -1,6 +1,6 @@
 demoList = [
 {
-"label": "Middle of a segment",
+"label": "Middle of segment",
 "data":
   [
   {"id": 0, "label": "A", "type": "PointFree", "x": -100, "y": 22},
@@ -56,7 +56,34 @@ demoList = [
   ]
 },
 {
-"label": "Bissecrtisses in a triangle",
+"label": "Middle of hypotenuse",
+"data":
+  [
+  {"id": 0, "hidden": true, "type": "PointFree", "x": 65, "y": -41.5},
+  {"id": 1, "type": "PointFree", "x": -78, "y": -41.5},
+  {"id": 2, "type": "Line_2p", "p1": 0, "p2": 1},
+  {"id": 3, "hidden": true, "type": "Circle_3p", "p1": 1, "p2": 0, "p3": 1},
+  {"id": 4, "hidden": true, "type": "Point_lc", "obj1": 2, "obj2": 3, "num": 1},
+  {"id": 5, "hidden": true, "type": "Circle_3p", "p1": 0, "p2": 4, "p3": 0},
+  {"id": 6, "hidden": true, "type": "Circle_3p", "p1": 4, "p2": 0, "p3": 4},
+  {"id": 7, "hidden": true, "type": "Point_2c", "obj1": 6, "obj2": 5, "num": 0},
+  {"id": 8, "hidden": true, "type": "Point_2c", "obj1": 5, "obj2": 6, "num": 0},
+  {"id": 9, "type": "Line_2p", "p1": 7, "p2": 8},
+  {"id": 10, "hidden": true, "type": "PointAtLine", "obj": 2, "t": -2.5874125874125875},
+  {"id": 11, "color": "#ff00ff", "type": "PointAtLine", "obj": 2, "t": -1.7818181818181829},
+  {"id": 12, "hidden": true, "type": "Circle_3p", "p1": 11, "p2": 10, "p3": 1},
+  {"id": 13, "type": "Point_lc", "obj1": 9, "obj2": 12, "num": 0},
+  {"id": 14, "color": "#9900ff", "type": "Segment", "p1": 13, "p2": 11},
+  {"id": 15, "hidden": true, "type": "Circle_3p", "p1": 11, "p2": 13, "p3": 11},
+  {"id": 16, "hidden": true, "type": "Circle_3p", "p1": 13, "p2": 11, "p3": 13},
+  {"id": 17, "hidden": true, "type": "Point_2c", "obj1": 15, "obj2": 16, "num": 0},
+  {"id": 18, "hidden": true, "type": "Point_2c", "obj1": 16, "obj2": 15, "num": 0},
+  {"id": 19, "hidden": true, "type": "Line_2p", "p1": 17, "p2": 18},
+  {"id": 20, "color": "#ff0000", "trace": true, "type": "Point_2l", "obj1": 14, "obj2": 19}
+  ]
+},
+{
+"label": "Bisectors in triangle",
 "data":
   [
   {"id": 0, "label": "B", "type": "PointFree", "x": 188, "y": 145},
@@ -102,25 +129,30 @@ demoList = [
 "label": "Inversion of point",
 "data":
   [
-  {"id": 0, "label": "O", "type": "PointFree", "x": -62, "y": -18},
-  {"id": 1, "type": "PointFree", "x": 123, "y": -15},
-  {"id": 2, "type": "Circle_3p", "p1": 0, "p2": 0, "p3": 1},
-  {"id": 3, "label": "A", "color": "#ff00ff", "type": "PointFree", "x": 325, "y": 114.5},
-  {"id": 4, "color": "#999999", "type": "Line_2p", "p1": 3, "p2": 0},
-  {"id": 5, "color": "#999999", "type": "PointAtCircle", "obj": 2, "x": -126, "y": 129},
-  {"id": 6, "color": "#999999", "type": "Line_2p", "p1": 3, "p2": 5},
-  {"id": 7, "hidden": true, "type": "PointAtLine", "obj": 4, "t": -0.13310338728221455},
-  {"id": 8, "hidden": true, "type": "Circle_3p", "p1": 5, "p2": 5, "p3": 7},
-  {"id": 9, "hidden": true, "type": "Point_lc", "obj1": 4, "obj2": 8, "num": 1},
-  {"id": 10, "hidden": true, "type": "Circle_3p", "p1": 9, "p2": 7, "p3": 9},
-  {"id": 11, "hidden": true, "type": "Circle_3p", "p1": 7, "p2": 9, "p3": 7},
-  {"id": 12, "hidden": true, "type": "Point_2c", "obj1": 10, "obj2": 11, "num": 0},
-  {"id": 13, "hidden": true, "type": "Point_2c", "obj1": 11, "obj2": 10, "num": 0},
-  {"id": 14, "color": "#999999", "type": "Line_2p", "p1": 12, "p2": 13},
-  {"id": 15, "color": "#999999", "type": "Point_lc", "obj1": 14, "obj2": 2, "num": 1},
-  {"id": 16, "color": "#999999", "type": "Point_lc", "obj1": 6, "obj2": 2, "num": 0},
-  {"id": 17, "color": "#999999", "type": "Line_2p", "p1": 15, "p2": 16},
-  {"id": 18, "label": "A'", "color": "#ff00ff", "type": "Point_2l", "obj1": 4, "obj2": 17}
+  {"id": 0, "hidden": true, "type": "PointFree", "x": 317, "y": 231},
+  {"id": 1, "hidden": true, "type": "PointFree", "x": 275, "y": -230},
+  {"id": 2, "type": "Line_2p", "p1": 0, "p2": 1},
+  {"id": 3, "label": "O", "type": "PointFree", "x": -18, "y": -50},
+  {"id": 4, "type": "PointFree", "x": 140, "y": -157},
+  {"id": 5, "type": "Circle_3p", "p1": 3, "p2": 3, "p3": 4},
+  {"id": 6, "label": "A", "color": "#ff00ff", "type": "PointAtLine", "obj": 2, "t": 0.5},
+  {"id": 7, "color": "#999999", "type": "Line_2p", "p1": 3, "p2": 6},
+  {"id": 8, "color": "#999999", "type": "PointAtCircle", "obj": 5, "x": -155, "y": 111},
+  {"id": 9, "color": "#999999", "type": "Line_2p", "p1": 6, "p2": 8},
+  {"id": 10, "hidden": true, "type": "Point_lc", "obj1": 7, "obj2": 5, "num": 0},
+  {"id": 11, "hidden": true, "type": "Point_lc", "obj1": 7, "obj2": 5, "num": 1},
+  {"id": 12, "hidden": true, "type": "Circle_3p", "p1": 8, "p2": 10, "p3": 11},
+  {"id": 13, "hidden": true, "type": "Point_lc", "obj1": 7, "obj2": 12, "num": 1},
+  {"id": 14, "hidden": true, "type": "Point_lc", "obj1": 7, "obj2": 12, "num": 0},
+  {"id": 15, "hidden": true, "type": "Circle_3p", "p1": 14, "p2": 13, "p3": 14},
+  {"id": 16, "hidden": true, "type": "Circle_3p", "p1": 13, "p2": 14, "p3": 13},
+  {"id": 17, "hidden": true, "type": "Point_2c", "obj1": 15, "obj2": 16, "num": 0},
+  {"id": 18, "hidden": true, "type": "Point_2c", "obj1": 15, "obj2": 16, "num": 1},
+  {"id": 19, "color": "#999999", "type": "Line_2p", "p1": 17, "p2": 18},
+  {"id": 20, "color": "#999999", "type": "Point_lc", "obj1": 19, "obj2": 5, "num": 1},
+  {"id": 21, "color": "#999999", "type": "Point_lc", "obj1": 9, "obj2": 5, "num": 0},
+  {"id": 22, "color": "#999999", "type": "Line_2p", "p1": 20, "p2": 21},
+  {"id": 23, "label": "A'", "color": "#ff9900", "trace": true, "type": "Point_2l", "obj1": 7, "obj2": 22}
   ]
 },
 {

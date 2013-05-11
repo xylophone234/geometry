@@ -78,6 +78,7 @@ bay.geom.base.Element.prototype.jsonHeader = function(id){
   return '"id": ' + id +
          (this.label?', "label": "' + this.label + '"':'') +
          (this.color?', "color": "' + this.color + '"':'') +
+         (this.trace?', "trace": true':'') +
          (this.hidden?', "hidden": true':'');
 }
 
@@ -85,6 +86,7 @@ bay.geom.base.Element.prototype.restoreFromJson = function(item){
   if (item.label) this.label = item.label;
   if (item.hidden) this.hidden = true;
   if (item.color) this.color = item.color;
+  if (item.trace) this.trace = true;
 }
 
 bay.geom.base.PointFree.prototype.toJson = function(list, id){
