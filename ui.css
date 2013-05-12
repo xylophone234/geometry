@@ -29,6 +29,9 @@
 .zoom-out {
   background-image: url('image/zoom-out.gif');
 }
+.demo {
+  background-image: url('image/demo.gif');
+}
 .pressedButton {
   border-style: inset;
 }
@@ -67,6 +70,14 @@
   left: 3px;
 }
 
+.infoDialog .traceCheck{
+  font-weight: bold;
+  font-size: 10px;
+  position: relative;
+  left: 3px;
+  display: inline-block;
+}
+
 .codeArea{
   border-radius: 6px;
   width: 800px;
@@ -84,42 +95,3 @@ td, canvas, button {
   outline: none;
 }
 
-.modal-dialog {
-  background: #c1d9ff;
-  border: 1px solid #3a5774;
-  color: #000;
-  padding: 4px;
-  position: absolute;
-  border-radius: 8px;
-}
-
-.modal-dialog-bg {
-  background: #666;
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-
-.modal-dialog-title {
-  background: #e0edfe;
-  color: #000;
-  cursor: pointer;
-  font-size: 120%;
-  font-weight: bold;
-
-  /* Add padding on the right to ensure the close button has room. */
-  padding: 8px 31px 8px 8px;
-
-  position: relative;
-  _zoom: 1; /* Ensures proper width in IE6 RTL. */
-}
-
-.modal-dialog-buttons,
-.modal-dialog-content {
-  background-color: #fff;
-  padding: 8px;
-}
-
-.goog-buttonset-default {
-  font-weight: bold;
-}
