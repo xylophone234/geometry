@@ -135,9 +135,9 @@ demoList = [
   {"id": 3, "label": "O", "type": "PointFree", "x": -18, "y": -50},
   {"id": 4, "type": "PointFree", "x": 140, "y": -157},
   {"id": 5, "type": "Circle_3p", "p1": 3, "p2": 3, "p3": 4},
-  {"id": 6, "label": "A", "color": "#ff00ff", "type": "PointAtLine", "obj": 2, "t": 0.5},
+  {"id": 6, "label": "A", "color": "#ff00ff", "type": "PointAtLine", "obj": 2, "t": 0.4},
   {"id": 7, "color": "#999999", "type": "Line_2p", "p1": 3, "p2": 6},
-  {"id": 8, "color": "#999999", "type": "PointAtCircle", "obj": 5, "x": -155, "y": 111},
+  {"id": 8, "color": "#999999", "type": "PointAtCircle", "obj": 5, "x": -113, "y": 152},
   {"id": 9, "color": "#999999", "type": "Line_2p", "p1": 6, "p2": 8},
   {"id": 10, "hidden": true, "type": "Point_lc", "obj1": 7, "obj2": 5, "num": 0},
   {"id": 11, "hidden": true, "type": "Point_lc", "obj1": 7, "obj2": 5, "num": 1},
@@ -220,6 +220,39 @@ demoList = [
   {"id": 58, "color": "#ff9900", "type": "Segment", "p1": 44, "p2": 45},
   {"id": 59, "color": "#ff9900", "type": "Segment", "p1": 45, "p2": 51},
   {"id": 60, "color": "#ff9900", "type": "Segment", "p1": 46, "p2": 51}
+  ]
+},
+{
+"label": "Archimed's problem",
+"data":
+  [
+  {"id": 0, "hidden": true, "type": "PointFree", "x": -51, "y": 15},
+  {"id": 1, "hidden": true, "type": "PointFree", "x": 192, "y": -99},
+  {"id": 2, "type": "Circle_3p", "p1": 0, "p2": 0, "p3": 1},
+  {"id": 3, "hidden": true, "type": "PointFree", "x": -514, "y": 83},
+  {"id": 4, "hidden": true, "type": "PointFree", "x": 413, "y": 51},
+  {"id": 5, "hidden": true, "type": "Line_2p", "p1": 3, "p2": 4},
+  {"id": 6, "label": "B", "type": "Point_lc", "obj1": 5, "obj2": 2, "num": 1},
+  {"id": 7, "label": "A", "type": "Point_lc", "obj1": 5, "obj2": 2, "num": 0},
+  {"id": 8, "label": "M", "color": "#ff00ff", "type": "PointAtCircle", "obj": 2, "x": 237, "y": -191},
+  {"id": 9, "type": "Segment", "p1": 7, "p2": 8},
+  {"id": 10, "type": "Segment", "p1": 6, "p2": 8},
+  {"id": 11, "hidden": true, "type": "Circle_3p", "p1": 8, "p2": 6, "p3": 8},
+  {"id": 12, "hidden": true, "type": "Point_lc", "obj1": 9, "obj2": 11, "num": 1},
+  {"id": 13, "hidden": true, "type": "Circle_3p", "p1": 7, "p2": 12, "p3": 7},
+  {"id": 14, "hidden": true, "type": "Circle_3p", "p1": 12, "p2": 7, "p3": 12},
+  {"id": 15, "hidden": true, "type": "Point_2c", "obj1": 13, "obj2": 14, "num": 0},
+  {"id": 16, "hidden": true, "type": "Point_2c", "obj1": 13, "obj2": 14, "num": 1},
+  {"id": 17, "hidden": true, "type": "Line_2p", "p1": 15, "p2": 16},
+  {"id": 18, "label": "O", "color": "#ff9900", "trace": true, "type": "Point_2l", "obj1": 9, "obj2": 17},
+  {"id": 19, "hidden": true, "type": "Circle_3p", "p1": 8, "p2": 7, "p3": 8},
+  {"id": 20, "hidden": true, "type": "Point_lc", "obj1": 10, "obj2": 19, "num": 1},
+  {"id": 21, "hidden": true, "type": "Circle_3p", "p1": 6, "p2": 20, "p3": 6},
+  {"id": 22, "hidden": true, "type": "Circle_3p", "p1": 20, "p2": 6, "p3": 20},
+  {"id": 23, "hidden": true, "type": "Point_2c", "obj1": 21, "obj2": 22, "num": 1},
+  {"id": 24, "hidden": true, "type": "Point_2c", "obj1": 21, "obj2": 22, "num": 0},
+  {"id": 25, "hidden": true, "type": "Line_2p", "p1": 23, "p2": 24},
+  {"id": 26, "label": "O'", "color": "#ff9900", "trace": true, "type": "Point_2l", "obj1": 25, "obj2": 10}
   ]
 }
 ]
