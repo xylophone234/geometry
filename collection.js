@@ -212,4 +212,6 @@ bay.geom.base.Collection.prototype.getFromJsonFunc = function(objName){
   else if (objName=="Segment") return bay.geom.base.Segment.fromJson;
   else if (objName=="CircleGeneral") return bay.geom.base.CircleGeneral.fromJson;
   else if (objName=="Circle_3p") return bay.geom.base.Circle_3p.fromJson;
+  else if (objName=="DiagramRect") return bay.geom.diagram.Rectangle.fromJson;
+  else if (objName=="DiagramPointAtRect") return bay.geom.diagram.PointAtRect.fromJson;
 }

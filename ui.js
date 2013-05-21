@@ -122,6 +122,7 @@ bay.geom.ui.Handler.prototype.addHoverListener = function(){
       if (this.state.rulerEndTmp) this.state.rulerEndTmp.moveTo(this.getConvertEventPos(e));
       if (this.state.compassEndTmp) this.state.compassEndTmp.moveTo(this.getConvertEventPos(e));
       if (this.state.compassCenterTmp) this.state.compassCenterTmp.moveTo(this.getConvertEventPos(e));
+      if (this.state.rectEndTmp) this.state.rectEndTmp.moveTo(this.getConvertEventPos(e));
       this.draw.redrawAll();
     }
     goog.events.listen(this.element, goog.events.EventType.MOUSEMOVE, moveHandler, null, this);
@@ -188,6 +189,19 @@ bay.geom.ui.Handler.prototype.addClickListener = function(){
           this.state.compassEndTmp.hide();
           this.tempCollection.add(line = new bay.geom.base.Segment(this.state.compassStart, this.state.compassEndTmp));
           line.current = true;
+        }
+      }else if (this.state.isRect){
+        // now user is using rect tool
+        if (this.state.rectStart){
+          this.draw.getMainCollection().add(new bay.geom.diagram.Rectangle(this.state.rectStart, point));
+          this.toggleRectState(false);
+        }else{
+          this.tempCollection.clear();
+          this.state.rectStart = point;
+          this.tempCollection.add(this.state.rectEndTmp = new bay.geom.base.PointFree(point));
+          this.state.rectEndTmp.hide();
+          this.tempCollection.add(rect = new bay.geom.diagram.Rectangle(this.state.rectStart, this.state.rectEndTmp));
+          rect.current = true;
         }
       }
       this.draw.redrawAll();
@@ -256,6 +270,7 @@ bay.geom.ui.Handler.prototype.addButtons = function(){
   this.buttons = {};
   this.buttons.bRuler = createButton('ruler', function(e) { handler.toggleRulerState();});
   this.buttons.bCompass = createButton('compass', function(e) { handler.toggleCompassState();});
+  this.buttons.bRect = createButton('rect', function(e) { handler.toggleRectState();});
   this.buttons.bZoomIn = createButton('zoom-in', function(e) { handler.zoomIn();});
   this.buttons.bZoomOut = createButton('zoom-out', function(e) { handler.zoomOut();});
   this.buttons.bInfo = createButton('info', function(e) { handler.toggleInfoState();});
@@ -385,6 +400,7 @@ bay.geom.ui.Handler.prototype.toggleRulerState = function(newState){
     this.state.isRuler = 1;
     this.toggleCompassState(false);
     this.toggleInfoState(false);
+    this.toggleRectState(false);
     goog.dom.classes.add(this.buttons.bRuler.getElement(), 'pressedButton');
     goog.dom.classes.add(this.element, 'rulerDrawing');
   }else{
@@ -406,6 +422,7 @@ bay.geom.ui.Handler.prototype.toggleCompassState = function(newState){
     this.state.isCompass = 1;
     this.toggleRulerState(false);
     this.toggleInfoState(false);
+    this.toggleRectState(false);
     goog.dom.classes.add(this.buttons.bCompass.getElement(), 'pressedButton');
     goog.dom.classes.add(this.element, 'compassDrawing');
   }else{
@@ -429,6 +446,7 @@ bay.geom.ui.Handler.prototype.toggleInfoState = function(newState){
     this.state.isInfo = 1;
     this.toggleRulerState(false);
     this.toggleCompassState(false);
+    this.toggleRectState(false);
     goog.dom.classes.add(this.buttons.bInfo.getElement(), 'pressedButton');
     goog.dom.classes.add(this.element, 'infoDrawing');
   }else{
@@ -439,6 +457,28 @@ bay.geom.ui.Handler.prototype.toggleInfoState = function(newState){
     }
     goog.dom.classes.remove(this.buttons.bInfo.getElement(), 'pressedButton');
     goog.dom.classes.remove(this.element, 'infoDrawing');
+  }
+  this.draw.redrawAll();
+}
+
+bay.geom.ui.Handler.prototype.toggleRectState = function(newState){
+  if (typeof newState === 'undefined'){
+    newState = !this.state.isRect;
+  }
+  if(newState){
+    this.state.isRect = 1;
+    this.toggleRulerState(false);
+    this.toggleCompassState(false);
+    this.toggleInfoState(false);
+    goog.dom.classes.add(this.buttons.bRect.getElement(), 'pressedButton');
+    goog.dom.classes.add(this.element, 'infoRect');
+  }else{
+    this.state.isRect = 0;
+    this.state.rectStart = null;
+    this.state.rectEndTmp = null;
+    this.tempCollection.clear();
+    goog.dom.classes.remove(this.buttons.bRect.getElement(), 'pressedButton');
+    goog.dom.classes.remove(this.element, 'infoRect');
   }
   this.draw.redrawAll();
 }

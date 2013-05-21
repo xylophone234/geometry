@@ -25,7 +25,7 @@ bay.geom.draw.Area.prototype.initProperties = function(){
     stroke:     new goog.graphics.Stroke(1, 'black'),
     fill:       new goog.graphics.SolidFill('black'),
     font:       new goog.graphics.Font(14, 'Times'),
-    hover:      new goog.graphics.Stroke(2, 'blue'),
+    hover:      new goog.graphics.Stroke(3, 'blue'),
     hoverdist:  10,
     current:    new goog.graphics.Stroke(1, 'red')
   }
